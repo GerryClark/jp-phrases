@@ -150,7 +150,7 @@ let apJump = false;          // true when Back/Replay sets a new target index
 let apCurrentPhrase = null;
 let apCurrentIndex = 0;
 let apQueue = [];
-let apMidAudio = false;      // true while audio element is playing
+let apAudioResolve = null;   // resolves the current audio promise early (set while a clip is in progress)
 let apGapTimer = null;       // setTimeout id for the between-phrase gap
 let apGapResolve = null;     // resolves the current gap promise early
 let apResumeResolve = null;  // resolves the pause-wait promise
@@ -171,11 +171,16 @@ function playApAudio(url, rate = 1.0) {
     audio.src = url;
     audio.playbackRate = rate;
     audio.load();
-    apMidAudio = true;
-    const done = () => { apMidAudio = false; resolve(); };
+    const done = () => {
+      if (apAudioResolve !== done) return;
+      apAudioResolve = null;
+      resolve();
+    };
+    apAudioResolve = done;
     audio.onended = done;
     audio.onerror = done;
-    audio.play().catch(done);
+    // A rejected play() caused by Pause is not the end of the clip — Resume restarts it
+    audio.play().catch(() => { if (!apPaused) done(); });
   });
 }
 
@@ -192,8 +197,8 @@ function waitGap(ms) {
 
 // Cancel whatever is currently happening (audio or gap) so the loop can act.
 function interruptCurrent() {
-  const audio = getApAudio();
-  if (apMidAudio) { audio.pause(); apMidAudio = false; }
+  getApAudio().pause();
+  if (apAudioResolve) apAudioResolve();
   if (apGapTimer) { clearTimeout(apGapTimer); apGapTimer = null; }
   if (apGapResolve) { apGapResolve(); apGapResolve = null; }
 }
@@ -296,15 +301,22 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('ap-pause-btn')?.addEventListener('click', () => {
     const btn = document.getElementById('ap-pause-btn');
     if (!apPaused) {
-      // PAUSE — stop audio/gap immediately
+      // PAUSE — hold audio where it is (Resume continues it); cut a gap short
       apPaused = true;
       btn.textContent = 'Resume';
-      interruptCurrent();
+      if (apAudioResolve) {
+        getApAudio().pause();
+      } else {
+        interruptCurrent();
+      }
     } else {
       // RESUME — this IS a user gesture, so iOS allows audio.play() here
       apPaused = false;
       btn.textContent = 'Pause';
-      if (apMidAudio) getApAudio().play().catch(() => {});
+      if (apAudioResolve) {
+        const done = apAudioResolve;
+        getApAudio().play().catch(done);   // if iOS refuses, move on rather than hang
+      }
       if (apResumeResolve) { apResumeResolve(); apResumeResolve = null; }
     }
   });
