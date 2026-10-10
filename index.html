@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>JP Phrases</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="static/manifest.json">
+  <meta name="theme-color" content="#c0392b">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JP Phrases">
+  <link rel="apple-touch-icon" href="static/icon-192.png">
+
+  <link rel="stylesheet" href="static/css/style.css">
+  <script src="static/js/config.js"></script>
+  <script>if (window.STATIC_BUILD) document.documentElement.classList.add("static-build");</script>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── HOME VIEW ──────────────────────────────────────────────────────── -->
+  <div id="view-home" class="view">
+    <div class="home-header">
+      <h1>🇯🇵 JP Phrases</h1>
+      <p>Your Japanese travel companion</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="home-total">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--success)" id="home-got-it">0</div>
+        <div class="stat-label">Got it</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--warning)" id="home-learning">0</div>
+        <div class="stat-label">Learning</div>
+      </div>
+    </div>
+
+    <div id="offline-status" class="offline-status hidden"></div>
+
+    <div class="section-title">Categories</div>
+    <div id="home-categories" class="home-categories"></div>
+
+    <div class="section-title">Quick Start</div>
+    <div class="quick-actions">
+      <button class="btn btn-primary btn-full" onclick="App.navigate('flashcard')">🃏 Flashcard Mode</button>
+      <button class="btn btn-outline btn-full" onclick="App.navigate('autoplay-config')">▶️ Auto-play Drill</button>
+      <button class="btn btn-outline btn-full" onclick="App.navigate('quiz')">🧠 Quiz Mode</button>
+    </div>
+
+    <div class="home-footer-btns">
+      <button class="btn btn-outline server-only" id="connect-phone-btn" onclick="toggleConnectPhone()">📱 Connect Phone</button>
+      <button class="btn btn-secondary" id="reset-progress-btn">Reset Progress</button>
+    </div>
+
+    <div class="connect-card hidden" id="connect-card">
+      <div id="qr-loading" class="qr-loading">Detecting IP address…</div>
+      <div id="qr-code"></div>
+      <div id="qr-url" class="qr-url"></div>
+      <p class="qr-hint">Scan with iPhone camera while on the same WiFi.<br>Then tap <strong>Add to Home Screen</strong> in Safari.</p>
+    </div>
+  </div>
+
+  <!-- ── PHRASES VIEW ───────────────────────────────────────────────────── -->
+  <div id="view-phrases" class="view hidden">
+    <div class="page-header">
+      <h1>Phrases</h1>
+      <p>Browse, add, and manage your phrase library</p>
+    </div>
+
+    <div class="phrases-toolbar">
+      <select id="phrases-filter"></select>
+      <div class="toolbar-btns server-only">
+        <button class="btn btn-outline" onclick="openImportModal()">⬆ Import</button>
+        <button class="btn btn-primary" onclick="openPhraseModal(null)">+ Add</button>
+      </div>
+    </div>
+
+    <div id="phrase-list"></div>
+  </div>
+
+  <!-- ── STUDY SELECTOR VIEW ───────────────────────────────────────────── -->
+  <div id="view-study" class="view hidden">
+    <div class="page-header">
+      <h1>Study</h1>
+      <p>Choose a study mode</p>
+    </div>
+
+    <div class="study-options">
+      <select id="study-category"></select>
+      <label class="toggle-label">
+        <input type="checkbox" id="study-shuffle"> Shuffle
+      </label>
+    </div>
+
+    <div class="mode-cards">
+      <div class="mode-card" onclick="App.navigate('flashcard')">
+        <div class="mode-icon">🃏</div>
+        <div class="mode-info">
+          <h3>Flashcard</h3>
+          <p>Review one phrase at a time, rate your confidence</p>
+        </div>
+      </div>
+      <div class="mode-card" onclick="App.navigate('autoplay-config')">
+        <div class="mode-icon">▶️</div>
+        <div class="mode-info">
+          <h3>Auto-play Drill</h3>
+          <p>Listen, repeat, then hear English — automatically</p>
+        </div>
+      </div>
+      <div class="mode-card" onclick="App.navigate('quiz')">
+        <div class="mode-icon">🧠</div>
+        <div class="mode-info">
+          <h3>Quiz</h3>
+          <p>Hear Japanese, pick the correct English meaning</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FLASHCARD VIEW ────────────────────────────────────────────────── -->
+  <div id="view-flashcard" class="view hidden">
+    <div class="page-header">
+      <h1>Flashcards</h1>
+    </div>
+
+    <div id="flashcard-content" class="flashcard-wrapper">
+      <div class="flashcard">
+        <div id="fc-english"></div>
+        <div id="fc-romaji"></div>
+        <div id="fc-kana"></div>
+      </div>
+
+      <div class="fc-audio-row">
+        <button class="btn btn-primary" id="fc-play">🔊 Play</button>
+        <label class="slow-toggle-label">
+          <input type="checkbox" id="fc-slow-toggle"> Slow
+        </label>
+      </div>
+
+      <div class="fc-rate-row">
+        <button class="btn btn-success" id="fc-got-it">✓ Got it</button>
+        <button class="btn btn-warning" id="fc-learning">↻ Still learning</button>
+      </div>
+
+      <div class="fc-nav-row">
+        <button class="btn btn-secondary" id="fc-prev">← Prev</button>
+        <span id="fc-counter">1 / 1</span>
+        <button class="btn btn-secondary" id="fc-next">Next →</button>
+      </div>
+
+      <button class="btn btn-outline btn-full" onclick="App.navigate('study')">← Back to Study</button>
+    </div>
+  </div>
+
+  <!-- ── AUTO-PLAY CONFIG VIEW ─────────────────────────────────────────── -->
+  <div id="view-autoplay-config" class="view hidden">
+    <div class="page-header">
+      <h1>Auto-play Drill</h1>
+      <p>Configure your session</p>
+    </div>
+
+    <div class="ap-config-card">
+      <div class="config-row">
+        <label>Drill mode</label>
+        <div class="mode-radio-group">
+          <label class="mode-radio">
+            <input type="radio" name="ap-mode" id="ap-mode-ja-first" value="ja-first" checked>
+            <span><strong>Japanese first</strong> — hear Japanese, then repeat it</span>
+          </label>
+          <label class="mode-radio">
+            <input type="radio" name="ap-mode" id="ap-mode-en-first" value="en-first">
+            <span><strong>English first</strong> — hear English, say it in Japanese, then hear the answer</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="config-row">
+        <label for="ap-pause-slider"><span id="ap-pause-title">Repeat pause</span>: <strong id="ap-pause-label">5s</strong></label>
+        <input type="range" id="ap-pause-slider" min="3" max="10" value="5">
+        <small id="ap-pause-hint" style="color:var(--text-muted); font-size:12px;">Time to repeat the phrase before moving on</small>
+      </div>
+
+      <div class="toggle-row" id="ap-english-row">
+        <label for="ap-english-toggle">Play English after pause</label>
+        <input type="checkbox" id="ap-english-toggle" checked>
+      </div>
+
+      <button class="btn btn-primary btn-full" id="ap-start-btn">Start Session</button>
+      <button class="btn btn-secondary btn-full" onclick="App.navigate('study')">← Back</button>
+    </div>
+  </div>
+
+  <!-- ── AUTO-PLAY SESSION VIEW ────────────────────────────────────────── -->
+  <div id="view-autoplay" class="view hidden">
+    <div class="page-header">
+      <h1>Auto-play Drill</h1>
+    </div>
+
+    <div class="ap-phrase-card">
+      <div id="ap-english"></div>
+      <div id="ap-romaji"></div>
+      <div id="ap-kana"></div>
+    </div>
+
+    <div class="ap-progress-wrap">
+      <div id="ap-progress-bar"></div>
+    </div>
+    <div id="ap-counter">0 / 0</div>
+
+    <div class="ap-controls">
+      <button class="btn btn-secondary" id="ap-back-btn">← Back one</button>
+      <button class="btn btn-secondary" id="ap-pause-btn">Pause</button>
+      <button class="btn btn-outline" id="ap-stop-btn">Stop</button>
+    </div>
+  </div>
+
+  <!-- ── QUIZ VIEW ─────────────────────────────────────────────────────── -->
+  <div id="view-quiz" class="view hidden">
+    <div class="page-header">
+      <h1>Quiz</h1>
+    </div>
+
+    <div id="quiz-content">
+      <div class="quiz-header">
+        <span id="quiz-counter">1 / 0</span>
+        <span id="quiz-score-display">Score: 0</span>
+      </div>
+
+      <div class="quiz-play-wrap">
+        <button class="btn btn-primary" id="quiz-play-btn">🔊 Play Japanese Audio</button>
+      </div>
+
+      <div id="quiz-options" class="quiz-options"></div>
+
+      <button class="btn btn-primary btn-full hidden" id="quiz-next-btn">Next →</button>
+    </div>
+
+    <div id="quiz-result" class="card quiz-result-card hidden">
+      <div id="quiz-final-score"></div>
+      <div id="quiz-result-msg"></div>
+      <div class="quiz-result-btns">
+        <button class="btn btn-primary" id="quiz-play-again-btn">Play Again</button>
+        <button class="btn btn-secondary" id="quiz-back-btn">← Study</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BOTTOM NAV ─────────────────────────────────────────────────────── -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-home" onclick="App.navigate('home')">
+      <span class="nav-icon">🏠</span>Home
+    </button>
+    <button class="nav-btn" id="nav-phrases" onclick="App.navigate('phrases')">
+      <span class="nav-icon">📖</span>Phrases
+    </button>
+    <button class="nav-btn" id="nav-study" onclick="App.navigate('study')">
+      <span class="nav-icon">🎓</span>Study
+    </button>
+  </nav>
+
+  <!-- ── ADD/EDIT MODAL ────────────────────────────────────────────────── -->
+  <div id="modal-overlay" class="hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title">Add Phrase</h2>
+        <button class="modal-close" onclick="closePhraseModal()">×</button>
+      </div>
+      <div class="form-group">
+        <label for="modal-english">English *</label>
+        <input type="text" id="modal-english" placeholder="e.g. Thank you very much">
+      </div>
+      <div class="form-group">
+        <label for="modal-romaji">Romaji *</label>
+        <input type="text" id="modal-romaji" placeholder="e.g. Arigatou gozaimasu">
+      </div>
+      <div class="form-group">
+        <label for="modal-kana">Kana</label>
+        <input type="text" id="modal-kana" placeholder="e.g. ありがとうございます">
+      </div>
+      <div class="form-group">
+        <label for="modal-category">Category</label>
+        <input type="text" id="modal-category" placeholder="e.g. Basics" value="Basics">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closePhraseModal()">Cancel</button>
+        <button class="btn btn-primary" id="modal-save-btn" onclick="savePhrase()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── IMPORT MODAL ─────────────────────────────────────────────────── -->
+  <div id="import-modal-overlay" class="hidden">
+    <div class="modal-card modal-wide">
+      <div class="modal-header">
+        <h2>Bulk Import Phrases</h2>
+        <button class="modal-close" onclick="closeImportModal()">×</button>
+      </div>
+
+      <div id="import-step-paste">
+        <p class="import-instructions">Paste tab-separated or CSV rows. Columns (in any order, headers detected automatically):<br>
+          <strong>English</strong> &nbsp;·&nbsp; <strong>Romaji</strong> &nbsp;·&nbsp; <strong>Kana</strong> (optional) &nbsp;·&nbsp; <strong>Category</strong> (optional)
+        </p>
+        <textarea id="import-textarea" placeholder="English&#9;Romaji&#9;Kana&#9;Category
+Hello / Good afternoon&#9;Konnichiwa&#9;こんにちは&#9;Greetings
+Thank you&#9;Arigatou gozaimasu&#9;ありがとうございます&#9;Courtesy"></textarea>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeImportModal()">Cancel</button>
+          <button class="btn btn-primary" onclick="previewImport()">Preview →</button>
+        </div>
+      </div>
+
+      <div id="import-step-preview" class="hidden">
+        <div id="import-summary" class="import-summary"></div>
+        <div id="import-preview-table-wrap"></div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="showImportPaste()">← Back</button>
+          <button class="btn btn-primary" id="import-confirm-btn" onclick="runImport()">Import</button>
+        </div>
+      </div>
+
+      <div id="import-step-progress" class="hidden">
+        <div class="import-progress-msg">
+          <div id="import-progress-text">Generating audio…</div>
+          <div class="import-spinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared audio element — unlocked once on iOS, reused for auto-play -->
+  <audio id="ap-audio"></audio>
+
+  <!-- ── TOAST ─────────────────────────────────────────────────────────── -->
+  <div id="toast" class="toast"></div>
+
+</div><!-- #app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+<script src="static/js/progress.js"></script>
+<script src="static/js/app.js"></script>
+<script src="static/js/phrases.js"></script>
+<script src="static/js/study.js"></script>
+<script src="static/js/quiz.js"></script>
+</body>
+</html>

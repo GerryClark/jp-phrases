@@ -1,0 +1,402 @@
+[
+  {
+    "id": "phrase_001",
+    "english": "Hello / Good afternoon",
+    "romaji": "Konnichiwa",
+    "kana": "こんにちは",
+    "category": "Greetings",
+    "audio_ja": "static/audio/ja/phrase_001.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_001_slow.mp3",
+    "audio_en": "static/audio/en/phrase_001.mp3"
+  },
+  {
+    "id": "phrase_002",
+    "english": "Good morning",
+    "romaji": "Ohayou gozaimasu",
+    "kana": "おはようございます",
+    "category": "Greetings",
+    "audio_ja": "static/audio/ja/phrase_002.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_002_slow.mp3",
+    "audio_en": "static/audio/en/phrase_002.mp3"
+  },
+  {
+    "id": "phrase_003",
+    "english": "Good evening",
+    "romaji": "Konbanwa",
+    "kana": "こんばんは",
+    "category": "Greetings",
+    "audio_ja": "static/audio/ja/phrase_003.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_003_slow.mp3",
+    "audio_en": "static/audio/en/phrase_003.mp3"
+  },
+  {
+    "id": "phrase_004",
+    "english": "Goodbye",
+    "romaji": "Sayounara",
+    "kana": "さようなら",
+    "category": "Greetings",
+    "audio_ja": "static/audio/ja/phrase_004.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_004_slow.mp3",
+    "audio_en": "static/audio/en/phrase_004.mp3"
+  },
+  {
+    "id": "phrase_005",
+    "english": "Thank you",
+    "romaji": "Arigatou gozaimasu",
+    "kana": "ありがとうございます",
+    "category": "Courtesy",
+    "audio_ja": "static/audio/ja/phrase_005.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_005_slow.mp3",
+    "audio_en": "static/audio/en/phrase_005.mp3"
+  },
+  {
+    "id": "phrase_006",
+    "english": "You're welcome",
+    "romaji": "Dou itashimashite",
+    "kana": "どういたしまして",
+    "category": "Courtesy",
+    "audio_ja": "static/audio/ja/phrase_006.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_006_slow.mp3",
+    "audio_en": "static/audio/en/phrase_006.mp3"
+  },
+  {
+    "id": "phrase_007",
+    "english": "Excuse me / Sorry",
+    "romaji": "Sumimasen",
+    "kana": "すみません",
+    "category": "Courtesy",
+    "audio_ja": "static/audio/ja/phrase_007.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_007_slow.mp3",
+    "audio_en": "static/audio/en/phrase_007.mp3"
+  },
+  {
+    "id": "phrase_008",
+    "english": "I'm sorry",
+    "romaji": "Gomen nasai",
+    "kana": "ごめんなさい",
+    "category": "Courtesy",
+    "audio_ja": "static/audio/ja/phrase_008.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_008_slow.mp3",
+    "audio_en": "static/audio/en/phrase_008.mp3"
+  },
+  {
+    "id": "phrase_009",
+    "english": "Yes",
+    "romaji": "Hai",
+    "kana": "はい",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_009.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_009_slow.mp3",
+    "audio_en": "static/audio/en/phrase_009.mp3"
+  },
+  {
+    "id": "phrase_010",
+    "english": "No",
+    "romaji": "Iie",
+    "kana": "いいえ",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_010.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_010_slow.mp3",
+    "audio_en": "static/audio/en/phrase_010.mp3"
+  },
+  {
+    "id": "phrase_011",
+    "english": "Please",
+    "romaji": "Onegaishimasu",
+    "kana": "おねがいします",
+    "category": "Courtesy",
+    "audio_ja": "static/audio/ja/phrase_011.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_011_slow.mp3",
+    "audio_en": "static/audio/en/phrase_011.mp3"
+  },
+  {
+    "id": "phrase_012",
+    "english": "I don't understand",
+    "romaji": "Wakarimasen",
+    "kana": "わかりません",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_012.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_012_slow.mp3",
+    "audio_en": "static/audio/en/phrase_012.mp3"
+  },
+  {
+    "id": "phrase_013",
+    "english": "Do you speak English?",
+    "romaji": "Eigo ga hanasemasu ka",
+    "kana": "英語が話せますか",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_013.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_013_slow.mp3",
+    "audio_en": "static/audio/en/phrase_013.mp3"
+  },
+  {
+    "id": "phrase_014",
+    "english": "Where is the restroom?",
+    "romaji": "Toire wa doko desu ka",
+    "kana": "トイレはどこですか",
+    "category": "Directions",
+    "audio_ja": "static/audio/ja/phrase_014.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_014_slow.mp3",
+    "audio_en": "static/audio/en/phrase_014.mp3"
+  },
+  {
+    "id": "phrase_015",
+    "english": "How much is this?",
+    "romaji": "Kore wa ikura desu ka",
+    "kana": "これはいくらですか",
+    "category": "Shopping",
+    "audio_ja": "static/audio/ja/phrase_015.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_015_slow.mp3",
+    "audio_en": "static/audio/en/phrase_015.mp3"
+  },
+  {
+    "id": "phrase_016",
+    "english": "The bill, please",
+    "romaji": "Okaikei wo onegaishimasu",
+    "kana": "お会計をお願いします",
+    "category": "Food & Drink",
+    "audio_ja": "static/audio/ja/phrase_016.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_016_slow.mp3",
+    "audio_en": "static/audio/en/phrase_016.mp3"
+  },
+  {
+    "id": "phrase_017",
+    "english": "A table for one",
+    "romaji": "Hitori desu",
+    "kana": "ひとりです",
+    "category": "Food & Drink",
+    "audio_ja": "static/audio/ja/phrase_017.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_017_slow.mp3",
+    "audio_en": "static/audio/en/phrase_017.mp3"
+  },
+  {
+    "id": "phrase_018",
+    "english": "A table for two",
+    "romaji": "Futari desu",
+    "kana": "ふたりです",
+    "category": "Food & Drink",
+    "audio_ja": "static/audio/ja/phrase_018.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_018_slow.mp3",
+    "audio_en": "static/audio/en/phrase_018.mp3"
+  },
+  {
+    "id": "phrase_019",
+    "english": "This is delicious",
+    "romaji": "Oishii desu",
+    "kana": "おいしいです",
+    "category": "Food & Drink",
+    "audio_ja": "static/audio/ja/phrase_019.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_019_slow.mp3",
+    "audio_en": "static/audio/en/phrase_019.mp3"
+  },
+  {
+    "id": "phrase_020",
+    "english": "Water, please",
+    "romaji": "Mizu wo kudasai",
+    "kana": "水をください",
+    "category": "Food & Drink",
+    "audio_ja": "static/audio/ja/phrase_020.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_020_slow.mp3",
+    "audio_en": "static/audio/en/phrase_020.mp3"
+  },
+  {
+    "id": "phrase_021",
+    "english": "Menu please",
+    "romaji": "Menyu wo onegaishimasu",
+    "kana": "メニューをお願いします",
+    "category": "Food & Drink",
+    "audio_ja": "static/audio/ja/phrase_021.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_021_slow.mp3",
+    "audio_en": "static/audio/en/phrase_021.mp3"
+  },
+  {
+    "id": "phrase_022",
+    "english": "Where is the train station?",
+    "romaji": "Eki wa doko desu ka",
+    "kana": "駅はどこですか",
+    "category": "Directions",
+    "audio_ja": "static/audio/ja/phrase_022.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_022_slow.mp3",
+    "audio_en": "static/audio/en/phrase_022.mp3"
+  },
+  {
+    "id": "phrase_023",
+    "english": "Where is [place]?",
+    "romaji": "＿＿＿wa doko desu ka",
+    "kana": "＿＿＿はどこですか",
+    "category": "Directions",
+    "audio_ja": "static/audio/ja/phrase_023.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_023_slow.mp3",
+    "audio_en": "static/audio/en/phrase_023.mp3"
+  },
+  {
+    "id": "phrase_024",
+    "english": "A ticket, please",
+    "romaji": "Kippu wo kudasai",
+    "kana": "切符をください",
+    "category": "Transportation",
+    "audio_ja": "static/audio/ja/phrase_024.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_024_slow.mp3",
+    "audio_en": "static/audio/en/phrase_024.mp3"
+  },
+  {
+    "id": "phrase_025",
+    "english": "Please take me to...",
+    "romaji": "＿＿＿made onegaishimasu",
+    "kana": "＿＿＿までお願いします",
+    "category": "Transportation",
+    "audio_ja": "static/audio/ja/phrase_025.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_025_slow.mp3",
+    "audio_en": "static/audio/en/phrase_025.mp3"
+  },
+  {
+    "id": "phrase_026",
+    "english": "Do you have...?",
+    "romaji": "＿＿＿wa arimasu ka",
+    "kana": "＿＿＿はありますか",
+    "category": "Shopping",
+    "audio_ja": "static/audio/ja/phrase_026.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_026_slow.mp3",
+    "audio_en": "static/audio/en/phrase_026.mp3"
+  },
+  {
+    "id": "phrase_027",
+    "english": "This, please",
+    "romaji": "Kore wo onegaishimasu",
+    "kana": "これをお願いします",
+    "category": "Shopping",
+    "audio_ja": "static/audio/ja/phrase_027.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_027_slow.mp3",
+    "audio_en": "static/audio/en/phrase_027.mp3"
+  },
+  {
+    "id": "phrase_028",
+    "english": "Too expensive",
+    "romaji": "Takai desu",
+    "kana": "たかいです",
+    "category": "Shopping",
+    "audio_ja": "static/audio/ja/phrase_028.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_028_slow.mp3",
+    "audio_en": "static/audio/en/phrase_028.mp3"
+  },
+  {
+    "id": "phrase_029",
+    "english": "Help!",
+    "romaji": "Tasukete",
+    "kana": "たすけて",
+    "category": "Emergency",
+    "audio_ja": "static/audio/ja/phrase_029.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_029_slow.mp3",
+    "audio_en": "static/audio/en/phrase_029.mp3"
+  },
+  {
+    "id": "phrase_031",
+    "english": "I am lost",
+    "romaji": "Michi ni mayoimashita",
+    "kana": "道に迷いました",
+    "category": "Emergency",
+    "audio_ja": "static/audio/ja/phrase_031.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_031_slow.mp3",
+    "audio_en": "static/audio/en/phrase_031.mp3"
+  },
+  {
+    "id": "phrase_032",
+    "english": "I need a doctor",
+    "romaji": "Oisha san ga hitsuyou desu",
+    "kana": "お医者さんが必要です",
+    "category": "Emergency",
+    "audio_ja": "static/audio/ja/phrase_032.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_032_slow.mp3",
+    "audio_en": "static/audio/en/phrase_032.mp3"
+  },
+  {
+    "id": "phrase_033",
+    "english": "I don't speak Japanese",
+    "romaji": "Nihongo wa hanasemasen",
+    "kana": "日本語は話せません",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_033.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_033_slow.mp3",
+    "audio_en": "static/audio/en/phrase_033.mp3"
+  },
+  {
+    "id": "phrase_034",
+    "english": "Could you say that again, please?",
+    "romaji": "Mou ichido onegaishimasu",
+    "kana": "もう一度お願いします",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_034.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_034_slow.mp3",
+    "audio_en": "static/audio/en/phrase_034.mp3"
+  },
+  {
+    "id": "phrase_035",
+    "english": "More slowly, please",
+    "romaji": "Yukkuri onegaishimasu",
+    "kana": "ゆっくりお願いします",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_035.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_035_slow.mp3",
+    "audio_en": "static/audio/en/phrase_035.mp3"
+  },
+  {
+    "id": "phrase_036",
+    "english": "Where is the exit?",
+    "romaji": "Deguchi wa doko desu ka",
+    "kana": "出口はどこですか",
+    "category": "Directions",
+    "audio_ja": "static/audio/ja/phrase_036.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_036_slow.mp3",
+    "audio_en": "static/audio/en/phrase_036.mp3"
+  },
+  {
+    "id": "phrase_037",
+    "english": "What is this?",
+    "romaji": "Kore wa nan desu ka",
+    "kana": "これは何ですか",
+    "category": "Shopping",
+    "audio_ja": "static/audio/ja/phrase_037.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_037_slow.mp3",
+    "audio_en": "static/audio/en/phrase_037.mp3"
+  },
+  {
+    "id": "phrase_038",
+    "english": "Yes, please",
+    "romaji": "Hai, onegaishimasu",
+    "kana": "はい、お願いします",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_038.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_038_slow.mp3",
+    "audio_en": "static/audio/en/phrase_038.mp3"
+  },
+  {
+    "id": "phrase_039",
+    "english": "I'm fine, thank you",
+    "romaji": "Daijoubu desu. Arigatou gozaimasu.",
+    "kana": "大丈夫です。ありがとうございます。",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_039.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_039_slow.mp3",
+    "audio_en": "static/audio/en/phrase_039.mp3"
+  },
+  {
+    "id": "phrase_040",
+    "english": "No, thank you (formal)",
+    "romaji": "Kekkou desu. Arigatou gozaimasu.",
+    "kana": "結構です。ありがとうございます。",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_040.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_040_slow.mp3",
+    "audio_en": "static/audio/en/phrase_040.mp3"
+  },
+  {
+    "id": "phrase_041",
+    "english": "No, I'm fine, thank you",
+    "romaji": "Iie, kekkou desu. Arigatou gozaimasu.",
+    "kana": "いいえ、結構です。ありがとうございます。",
+    "category": "Communication",
+    "audio_ja": "static/audio/ja/phrase_041.mp3",
+    "audio_ja_slow": "static/audio/ja/phrase_041_slow.mp3",
+    "audio_en": "static/audio/en/phrase_041.mp3"
+  }
+]
