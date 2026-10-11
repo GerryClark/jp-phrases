@@ -18,7 +18,10 @@ After the phrase list is updated, open the app once while online to pick up the 
 - Japanese audio (normal and slow) and English audio for every phrase
 - **Flashcards** — tap to hear, rate "Got it" / "Still learning"
 - **Auto-play** — hands-free listening; "Still learning" phrases come up twice as often
-- **Quiz** — hear the Japanese, pick the English meaning
+- **Quiz** — four types: Listening, English → Japanese, Reading, and Say it
+  (speak, reveal, mark yourself). Missed phrases can be retried at the end.
+- **Filters** — study several categories at once, and focus on phrases not yet
+  marked "Got it" or still marked "Still learning". Works for every mode.
 
 Study progress is saved in the browser on each device; it isn't synced between devices.
 

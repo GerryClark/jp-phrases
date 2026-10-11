@@ -1,6 +1,20 @@
+// Study filters, remembered per device. categories: [] means all categories.
+function loadStudyOptions() {
+  const defaults = { categories: [], status: 'all', shuffle: false, quizType: 'listening' };
+  try {
+    return { ...defaults, ...JSON.parse(localStorage.getItem('study_options') || '{}') };
+  } catch (e) {
+    return defaults;
+  }
+}
+
 const App = {
   phrases: [],
-  studyOptions: { category: 'all', shuffle: false },
+  studyOptions: loadStudyOptions(),
+
+  saveStudyOptions() {
+    try { localStorage.setItem('study_options', JSON.stringify(this.studyOptions)); } catch (e) {}
+  },
 
   async init() {
     await this.loadPhrases();
@@ -59,6 +73,7 @@ const App = {
       study: 'study',
       flashcard: 'study',
       'autoplay-config': 'study',
+      'quiz-config': 'study',
       autoplay: 'study',
       quiz: 'study'
     };
@@ -75,6 +90,7 @@ const App = {
     if (view === 'flashcard') startFlashcard();
     if (view === 'autoplay-config') renderAutoplayConfig();
     if (view === 'autoplay') startAutoplay();
+    if (view === 'quiz-config') renderQuizConfig();
     if (view === 'quiz') startQuiz();
   },
 

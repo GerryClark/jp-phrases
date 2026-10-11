@@ -24,6 +24,8 @@ html, body {
   -webkit-text-size-adjust: 100%;
 }
 
+button, input, select, textarea { font-family: inherit; }
+
 .hidden { display: none !important; }
 .static-build .server-only { display: none !important; }
 
@@ -294,22 +296,57 @@ html, body {
 .dot-unrated { background: var(--border); }
 
 /* Study selector */
-.study-options {
-  display: flex;
-  gap: 10px;
+/* Study filters */
+.study-filters {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 14px 14px 10px;
   margin-bottom: 20px;
-  align-items: center;
-  flex-wrap: wrap;
 }
-.study-options select {
-  flex: 1;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+.filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.chip {
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 7px 14px;
   font-size: 14px;
-  background: white;
-  min-height: 44px;
+  min-height: 36px;
+  cursor: pointer;
 }
+.chip.active { background: var(--primary); border-color: var(--primary); color: white; }
+.segmented {
+  display: flex;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.segmented button {
+  flex: 1;
+  border: none;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 13px;
+  padding: 9px 4px;
+  min-height: 40px;
+  cursor: pointer;
+}
+.segmented button + button { border-left: 1.5px solid var(--border); }
+.segmented button.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+.study-filter-footer { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+#study-count { font-size: 14px; color: var(--text-muted); }
+#study-count.empty { color: var(--primary); }
+
 .toggle-label {
   display: flex;
   align-items: center;
@@ -499,6 +536,46 @@ html, body {
 .quiz-option-btn.correct { background: #d5f5e3; border-color: var(--success); color: var(--success); font-weight: 600; }
 .quiz-option-btn.wrong { background: #fde8e8; border-color: var(--primary); color: var(--primary); }
 .quiz-option-btn:disabled { cursor: default; }
+
+/* Quiz prompts */
+.quiz-prompt { text-align: center; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.quiz-prompt-english { font-size: 22px; font-weight: 600; }
+.quiz-prompt-kana { font-size: 30px; font-weight: 600; line-height: 1.3; }
+.quiz-prompt-romaji { font-size: 16px; color: var(--text-muted); }
+.quiz-prompt-hint { font-size: 14px; color: var(--text-muted); }
+.quiz-option-sub { display: block; font-size: 14px; color: var(--text-muted); font-weight: normal; margin-top: 2px; }
+.quiz-config-count { font-size: 14px; color: var(--text-muted); margin: 4px 0 12px; text-align: center; }
+
+.quiz-sayit { display: flex; flex-direction: column; gap: 12px; }
+.quiz-sayit-answer {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 18px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.quiz-sayit-romaji { font-size: 22px; font-weight: 600; color: var(--primary); }
+.quiz-sayit-kana { font-size: 18px; margin-bottom: 6px; }
+.quiz-sayit-grade { display: flex; gap: 10px; }
+.quiz-sayit-grade .btn { flex: 1; }
+
+.quiz-missed-wrap { text-align: left; margin-bottom: 16px; }
+.quiz-missed-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.quiz-missed-list li {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.missed-en { font-size: 14px; font-weight: 600; }
+.missed-ja { font-size: 14px; color: var(--text-muted); }
+#quiz-retry-btn { margin-bottom: 10px; }
 
 .quiz-result-card {
   text-align: center;

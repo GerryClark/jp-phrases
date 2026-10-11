@@ -94,11 +94,17 @@
       <p>Choose a study mode</p>
     </div>
 
-    <div class="study-options">
-      <select id="study-category"></select>
-      <label class="toggle-label">
-        <input type="checkbox" id="study-shuffle"> Shuffle
-      </label>
+    <div class="study-filters">
+      <div class="filter-label">Categories</div>
+      <div id="study-categories" class="chip-row"></div>
+      <div class="filter-label">Progress</div>
+      <div id="study-status" class="segmented"></div>
+      <div class="study-filter-footer">
+        <p id="study-count"></p>
+        <label class="toggle-label">
+          <input type="checkbox" id="study-shuffle"> Shuffle
+        </label>
+      </div>
     </div>
 
     <div class="mode-cards">
@@ -116,11 +122,11 @@
           <p>Listen, repeat, then hear English — automatically</p>
         </div>
       </div>
-      <div class="mode-card" onclick="App.navigate('quiz')">
+      <div class="mode-card" onclick="App.navigate('quiz-config')">
         <div class="mode-icon">🧠</div>
         <div class="mode-info">
           <h3>Quiz</h3>
-          <p>Hear Japanese, pick the correct English meaning</p>
+          <p>4 quiz types: listening, English → Japanese, reading, say it</p>
         </div>
       </div>
     </div>
@@ -224,9 +230,40 @@
   </div>
 
   <!-- ── QUIZ VIEW ─────────────────────────────────────────────────────── -->
-  <div id="view-quiz" class="view hidden">
+  <div id="view-quiz-config" class="view hidden">
     <div class="page-header">
       <h1>Quiz</h1>
+      <p>Choose a quiz type</p>
+    </div>
+
+    <div class="ap-config-card">
+      <div class="mode-radio-group">
+        <label class="mode-radio">
+          <input type="radio" name="quiz-type" value="listening">
+          <span><strong>Listening</strong> — hear the Japanese, pick the English meaning</span>
+        </label>
+        <label class="mode-radio">
+          <input type="radio" name="quiz-type" value="en-ja">
+          <span><strong>English → Japanese</strong> — see the English, pick the Japanese</span>
+        </label>
+        <label class="mode-radio">
+          <input type="radio" name="quiz-type" value="reading">
+          <span><strong>Reading</strong> — read the Japanese (no audio), pick the English</span>
+        </label>
+        <label class="mode-radio">
+          <input type="radio" name="quiz-type" value="sayit">
+          <span><strong>Say it</strong> — see the English, say it out loud, then reveal and mark yourself</span>
+        </label>
+      </div>
+      <p id="quiz-config-count" class="quiz-config-count"></p>
+      <button class="btn btn-primary btn-full" id="quiz-start-btn">Start Quiz</button>
+      <button class="btn btn-secondary btn-full" onclick="App.navigate('study')">← Back</button>
+    </div>
+  </div>
+
+  <div id="view-quiz" class="view hidden">
+    <div class="page-header">
+      <h1 id="quiz-title">Quiz</h1>
     </div>
 
     <div id="quiz-content">
@@ -235,11 +272,22 @@
         <span id="quiz-score-display">Score: 0</span>
       </div>
 
-      <div class="quiz-play-wrap">
-        <button class="btn btn-primary" id="quiz-play-btn">🔊 Play Japanese Audio</button>
-      </div>
+      <div id="quiz-prompt" class="quiz-prompt"></div>
 
       <div id="quiz-options" class="quiz-options"></div>
+
+      <div id="quiz-sayit" class="quiz-sayit hidden">
+        <div id="quiz-sayit-answer" class="quiz-sayit-answer hidden">
+          <div id="quiz-sayit-romaji" class="quiz-sayit-romaji"></div>
+          <div id="quiz-sayit-kana" class="quiz-sayit-kana"></div>
+          <button class="btn btn-secondary" id="quiz-sayit-replay">🔊 Play again</button>
+        </div>
+        <button class="btn btn-primary btn-full" id="quiz-reveal-btn">Reveal answer</button>
+        <div id="quiz-sayit-grade" class="quiz-sayit-grade hidden">
+          <button class="btn btn-secondary" id="quiz-missed-btn">✗ Missed</button>
+          <button class="btn btn-primary" id="quiz-gotit-btn">✓ Got it</button>
+        </div>
+      </div>
 
       <button class="btn btn-primary btn-full hidden" id="quiz-next-btn">Next →</button>
     </div>
@@ -247,8 +295,13 @@
     <div id="quiz-result" class="card quiz-result-card hidden">
       <div id="quiz-final-score"></div>
       <div id="quiz-result-msg"></div>
+      <div id="quiz-missed-wrap" class="quiz-missed-wrap hidden">
+        <div class="filter-label">Missed</div>
+        <ul id="quiz-missed-list" class="quiz-missed-list"></ul>
+      </div>
+      <button class="btn btn-primary btn-full hidden" id="quiz-retry-btn">Retry missed</button>
       <div class="quiz-result-btns">
-        <button class="btn btn-primary" id="quiz-play-again-btn">Play Again</button>
+        <button class="btn btn-secondary" id="quiz-play-again-btn">Play Again</button>
         <button class="btn btn-secondary" id="quiz-back-btn">← Study</button>
       </div>
     </div>

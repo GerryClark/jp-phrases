@@ -4,8 +4,11 @@ let studyIndex = 0;
 let slowMode = false;
 
 function getFilteredPhrases() {
-  const cat = App.studyOptions.category;
-  let phrases = cat === 'all' ? App.phrases : App.phrases.filter(p => p.category === cat);
+  const { categories, status } = App.studyOptions;
+  let phrases = App.phrases;
+  if (categories.length) phrases = phrases.filter(p => categories.includes(p.category));
+  if (status === 'not_got') phrases = phrases.filter(p => Progress.getStatus(p.id) !== 'got_it');
+  if (status === 'learning') phrases = phrases.filter(p => Progress.getStatus(p.id) === 'learning');
   if (App.studyOptions.shuffle) phrases = shuffle(phrases);
   return phrases;
 }
@@ -20,26 +23,56 @@ function buildAutoplayQueue(phrases) {
 }
 
 // ── Study selector view ─────────────────────────────────────────────────────
+const STATUS_FILTERS = [
+  ['all', 'All'],
+  ['not_got', 'Not got it'],
+  ['learning', 'Still learning']
+];
+
 function renderStudy() {
-  const categories = ['all', ...new Set(App.phrases.map(p => p.category))];
-  const catSelect = document.getElementById('study-category');
-  catSelect.innerHTML = '';
-  categories.forEach(cat => {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = cat === 'all' ? 'All Categories' : cat;
-    if (cat === App.studyOptions.category) opt.selected = true;
-    catSelect.appendChild(opt);
+  const opts = App.studyOptions;
+  const allCats = [...new Set(App.phrases.map(p => p.category))];
+  // Drop categories that no longer exist (e.g. after editing phrases)
+  opts.categories = opts.categories.filter(c => allCats.includes(c));
+
+  const chipRow = document.getElementById('study-categories');
+  chipRow.innerHTML = '';
+  const addChip = (label, active, onClick) => {
+    const chip = document.createElement('button');
+    chip.className = 'chip' + (active ? ' active' : '');
+    chip.textContent = label;
+    chip.addEventListener('click', () => { onClick(); App.saveStudyOptions(); renderStudy(); });
+    chipRow.appendChild(chip);
+  };
+  addChip('All', opts.categories.length === 0, () => { opts.categories = []; });
+  allCats.forEach(cat => {
+    const selected = opts.categories.includes(cat);
+    addChip(cat, selected, () => {
+      opts.categories = selected ? opts.categories.filter(c => c !== cat) : [...opts.categories, cat];
+    });
   });
-  document.getElementById('study-shuffle').checked = App.studyOptions.shuffle;
+
+  const statusRow = document.getElementById('study-status');
+  statusRow.innerHTML = '';
+  STATUS_FILTERS.forEach(([value, label]) => {
+    const btn = document.createElement('button');
+    btn.className = opts.status === value ? 'active' : '';
+    btn.textContent = label;
+    btn.addEventListener('click', () => { opts.status = value; App.saveStudyOptions(); renderStudy(); });
+    statusRow.appendChild(btn);
+  });
+
+  const n = getFilteredPhrases().length;
+  document.getElementById('study-count').textContent =
+    n === 0 ? 'No phrases match — change the filters above' : `${n} phrase${n === 1 ? '' : 's'} selected`;
+  document.getElementById('study-count').classList.toggle('empty', n === 0);
+  document.getElementById('study-shuffle').checked = opts.shuffle;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('study-category')?.addEventListener('change', e => {
-    App.studyOptions.category = e.target.value;
-  });
   document.getElementById('study-shuffle')?.addEventListener('change', e => {
     App.studyOptions.shuffle = e.target.checked;
+    App.saveStudyOptions();
   });
 });
 
@@ -50,7 +83,8 @@ function startFlashcard() {
   slowMode = false;
 
   if (studyQueue.length === 0) {
-    document.getElementById('flashcard-content').innerHTML = '<p class="empty-msg">No phrases in this category.</p>';
+    App.toast('No phrases match your filters.', 'error');
+    App.navigate('study');
     return;
   }
 
@@ -214,8 +248,8 @@ function startAutoplay() {
 
   const phrases = getFilteredPhrases();
   if (phrases.length === 0) {
-    App.toast('No phrases in this category.', 'error');
-    App.navigate('autoplay-config');
+    App.toast('No phrases match your filters.', 'error');
+    App.navigate('study');
     return;
   }
 

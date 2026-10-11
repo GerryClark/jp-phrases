@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jp-phrases-v3';
+const CACHE_NAME = 'jp-phrases-v4';
 
 // Paths are relative to the service worker's location, so the same file works
 // from Flask (served at /sw.js) and from GitHub Pages (served at /<repo>/sw.js).
