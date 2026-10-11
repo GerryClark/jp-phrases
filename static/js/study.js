@@ -13,13 +13,13 @@ function getFilteredPhrases() {
   return phrases;
 }
 
+// "Still learning" phrases get a second round at the end, so they're heard twice
+// as often without repeating back-to-back. Skipped when the filter already
+// limits the session to "Still learning" (every phrase would just play twice).
 function buildAutoplayQueue(phrases) {
-  const queue = [];
-  phrases.forEach(p => {
-    queue.push(p);
-    if (Progress.getStatus(p.id) === 'learning') queue.push(p);
-  });
-  return queue;
+  if (App.studyOptions.status === 'learning') return [...phrases];
+  const learning = phrases.filter(p => Progress.getStatus(p.id) === 'learning');
+  return [...phrases, ...(App.studyOptions.shuffle ? shuffle(learning) : learning)];
 }
 
 // ── Study selector view ─────────────────────────────────────────────────────
@@ -180,6 +180,7 @@ function renderAutoplayConfig() {
 // ── Auto-play mode ──────────────────────────────────────────────────────────
 let apPaused = false;
 let apStopped = false;
+let apSession = 0;          // bumped per session so an old loop can tell it's been replaced
 let apJump = false;          // true when Back/Replay sets a new target index
 let apCurrentPhrase = null;
 let apCurrentIndex = 0;
@@ -241,7 +242,17 @@ function waitForResume() {
   return new Promise(resolve => { apResumeResolve = resolve; });
 }
 
+// End the running session (if any): stop audio, release any waits so its loop exits.
+function stopAutoplay() {
+  apStopped = true;
+  interruptCurrent();
+  if (apResumeResolve) { apResumeResolve(); apResumeResolve = null; }
+}
+
 function startAutoplay() {
+  stopAutoplay();
+  apSession++;
+
   const pauseSeconds = parseInt(document.getElementById('ap-pause-slider')?.value || 5);
   const mode = document.querySelector('input[name="ap-mode"]:checked')?.value || 'ja-first';
   const playEnglish = mode === 'ja-first' && (document.getElementById('ap-english-toggle')?.checked || false);
@@ -268,13 +279,15 @@ function startAutoplay() {
 
 async function runAutoplay(queue, pauseSeconds, mode, playEnglish) {
   // ok() — returns false if we should exit the current phrase early
-  const ok = () => !apStopped && !apJump;
+  const session = apSession;
+  const stopped = () => apStopped || session !== apSession;
+  const ok = () => !stopped() && !apJump;
 
   while (apCurrentIndex < queue.length) {
-    if (apStopped) break;
+    if (stopped()) break;
 
     // Wait here if paused between phrases
-    if (apPaused) { await waitForResume(); if (apStopped) break; }
+    if (apPaused) { await waitForResume(); if (stopped()) break; }
 
     apJump = false;
     const phrase = queue[apCurrentIndex];
@@ -328,7 +341,7 @@ async function runAutoplay(queue, pauseSeconds, mode, playEnglish) {
     apCurrentIndex++;
   }
 
-  if (!apStopped) App.toast('Session complete!');
+  if (!stopped()) App.toast('Session complete!');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -369,10 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('ap-stop-btn')?.addEventListener('click', () => {
-    apStopped = true;
-    interruptCurrent();
-    if (apResumeResolve) { apResumeResolve(); apResumeResolve = null; }
-    App.navigate('study');
+    App.navigate('study');   // navigate() stops the session
   });
 
   document.getElementById('ap-start-btn')?.addEventListener('click', () => {

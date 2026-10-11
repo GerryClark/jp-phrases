@@ -62,6 +62,9 @@ const App = {
   },
 
   navigate(view) {
+    // Leaving the auto-play screen (by any route) ends its session
+    if (view !== 'autoplay') stopAutoplay();
+
     document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
     const el = document.getElementById(`view-${view}`);
     if (el) el.classList.remove('hidden');

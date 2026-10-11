@@ -17,7 +17,7 @@ After the phrase list is updated, open the app once while online to pick up the 
   Transportation, Food & Drink, Shopping, Emergency
 - Japanese audio (normal and slow) and English audio for every phrase
 - **Flashcards** — tap to hear, rate "Got it" / "Still learning"
-- **Auto-play** — hands-free listening; "Still learning" phrases come up twice as often
+- **Auto-play** — hands-free listening; "Still learning" phrases get a second round at the end
 - **Quiz** — four types: Listening, English → Japanese, Reading, and Say it
   (speak, reveal, mark yourself). Missed phrases can be retried at the end.
 - **Filters** — study several categories at once, and focus on phrases not yet
